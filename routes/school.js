@@ -21,6 +21,7 @@ const uploadCsv = multer({
 const {
   getSchools,
   getSchool,
+  getSchoolByTag,
   createSchool,
   updateSchool,
   deleteSchool,
@@ -35,11 +36,13 @@ const router = express.Router({ mergeParams: true })
 const { protect, authorize } = require('../middleware/auth')
 const advancedResults = require('../middleware/advancedResults')
 
+router.get('/tag/:id', getSchoolByTag)
+
 router.use(protect)
 
 router.post('/', upload, createSchool)
-router.put('/:id', upload, updateSchool)
 router.get('/:id', getSchool)
+router.put('/:id', upload, updateSchool)
 router.post('/:id/students', uploadCsv, uploadStudents)
 
 router.use(authorize('admin'))

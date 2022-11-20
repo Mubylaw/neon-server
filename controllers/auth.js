@@ -28,7 +28,7 @@ exports.register = asyncHandler(async (req, res, next) => {
 // @route   POST /api/v1/auth/login
 // @access  Public
 exports.login = asyncHandler(async (req, res, next) => {
-  var { email, password } = req.body
+  var { email, password, school } = req.body
 
   // Validate email and password
   if (!email || !password) {
@@ -43,6 +43,10 @@ exports.login = asyncHandler(async (req, res, next) => {
 
   if (!user) {
     return next(new ErrorResponse('Email or password incorrect', 401))
+  }
+
+  if (user.role === 'student' && school) {
+    return next(new ErrorResponse('Log in through your school portal', 401))
   }
 
   // check if password matches

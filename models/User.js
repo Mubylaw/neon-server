@@ -162,7 +162,12 @@ UserSchema.post('save', function (error, doc, next) {
 // sign jwt and return
 UserSchema.methods.getSignedJwtToken = function () {
   return jwt.sign(
-    { id: this._id, firstName: this.firstName, picture: this.picture },
+    {
+      id: this._id,
+      firstName: this.firstName,
+      role: this.role,
+      school: this.school,
+    },
     process.env.JWT_SECRET,
     {
       expiresIn: process.env.JWT_EXPIRE,
